@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-{{ .Values.cms.name }}-ing
+  {{- if eq .Values.env.ssl "1" }}
+  annotations:
+    cert-manager.io/issuer: "letsencrypt"
+  {{- end }}
+  labels:
+    {{- include "cms.labels" . | nindent 4 }}
+spec:
+  ingressClassName: nginx
+  {{- if eq .Values.env.ssl "1" }}
+  tls:
+  - hosts:
+    - "{{ tpl .Values.host . }}"
+    secretName: {{ .Release.Name }}-{{ .Values.cms.name }}-tls
+  {{- end }}
+  rules:
+    - host: "{{ tpl .Values.host . }}"
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: {{ .Release.Name }}-{{ .Values.cms.name }}-svc
+              port:
+                name: http

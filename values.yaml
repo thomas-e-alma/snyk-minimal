@@ -1,0 +1,30 @@
+foo: bar
+cms:
+  name: "testing"
+  labels:
+    - "label"
+  image:
+    tag: lastest
+    repository: prestashop/prestashop
+  envs:
+    name: "foo"
+    foo: bar
+    ssl: "1"
+name: foo
+env:
+  name: "testing"
+foo_plugin:
+  branch: "main"
+  repository: prestashop/prestashop
+
+host: testing
+db:
+  name: postgres
+  image:
+    tag: "13.8"
+    labels:
+      -foo
+
+Release:
+  Name: tessting
+
