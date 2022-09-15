@@ -13,6 +13,7 @@ cms:
 name: foo
 env:
   name: "testing"
+  ssl: "1"
 foo_plugin:
   branch: "main"
   repository: prestashop/prestashop
